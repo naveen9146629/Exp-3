@@ -38,83 +38,78 @@ Pandas.
 ## Program
 
 ```python
-# EXPERIMENT 3: LOGISTIC REGRESSION FOR CLASSIFICATION
-
-import numpy as np
 import pandas as pd
-
-from sklearn.datasets import load_breast_cancer
+from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
-# Load dataset
-data = load_breast_cancer()
+# Load Iris Dataset
+iris = load_iris()
 
-X = data.data
-y = data.target
+X = iris.data
+y = iris.target
 
-# Split dataset into training and testing sets
+# Split Dataset
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42,
+    X, y,
+    test_size=0.2,
+    random_state=42,
     stratify=y
 )
 
-# Standardize the features
+# Feature Scaling
 scaler = StandardScaler()
 
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-# Train Logistic Regression model
-model = LogisticRegression(max_iter=1000)
+# Logistic Regression Model
+model = LogisticRegression(max_iter=200)
+
+# Train Model
 model.fit(X_train, y_train)
 
-# Predict test data
+# Prediction
 y_pred = model.predict(X_test)
 
-# Evaluate the model
-accuracy = accuracy_score(y_test, y_pred)
-cm = confusion_matrix(y_test, y_pred)
-
-print("LOGISTIC REGRESSION CLASSIFICATION")
-print("----------------------------------")
-
-print("Accuracy:", round(accuracy * 100, 2), "%")
+# Evaluation
+print("Accuracy:", accuracy_score(y_test, y_pred))
 
 print("\nConfusion Matrix:")
-print(cm)
+print(confusion_matrix(y_test, y_pred))
 
 print("\nClassification Report:")
 print(classification_report(
-    y_test, y_pred,
-    target_names=data.target_names
+    y_test,
+    y_pred,
+    target_names=iris.target_names
 ))
 ```
 
 ## output
 ```text
-LOGISTIC REGRESSION CLASSIFICATION
-----------------------------------
-Accuracy: 98.25 %
+Accuracy: 0.9333333333333333
 
 Confusion Matrix:
-[[41  1]
- [ 1 71]]
+[[10  0  0]
+ [ 0  9  1]
+ [ 0  1  9]]
 
 Classification Report:
               precision    recall  f1-score   support
 
-   malignant       0.98      0.98      0.98        42
-      benign       0.99      0.99      0.99        72
+      setosa       1.00      1.00      1.00        10
+  versicolor       0.90      0.90      0.90        10
+   virginica       0.90      0.90      0.90        10
 
-    accuracy                           0.98       114
-   macro avg       0.98      0.98      0.98       114
-weighted avg       0.98      0.98      0.98       114
+    accuracy                           0.93        30
+   macro avg       0.93      0.93      0.93        30
+weighted avg       0.93      0.93      0.93        30
+
+
 ```
 
 ## Result
-Thus, Logistic Regression classification was successfully implemented using Python. The model achieved 98.25% accuracy on the test dataset.
+Thus, Logistic Regression classification was successfully implemented using Python. The model achieved 93% accuracy on the test dataset.
